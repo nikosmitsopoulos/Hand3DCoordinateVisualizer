@@ -10,8 +10,7 @@ The goal is to extract the position and orientation of the hand and display a 3D
 
 ##  Demo
 
-![Screenshot from 2025-05-27 20-26-54](https://github.com/user-attachments/assets/47e2f788-c7d9-44df-b169-943f1aa72a7f)
-
+<img width="550" alt="Screenshot 2025-05-29 at 5 00 07 PM" src="https://github.com/user-attachments/assets/62d82e69-4dcd-4351-b4af-cffdd2487cb3" />
 
  You can also read the full report here:  
 [ Bonus_Project.pdf](./Bonus_Project.pdf)

@@ -36,21 +36,22 @@ with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7) as hands:
                     continue
 
                 lm = hand_landmarks.landmark
-                origin = np.array([lm[1].x, lm[1].y, lm[1].z])
-                towards_index = np.array([lm[5].x, lm[5].y, lm[5].z])
-                along_thumb = np.array([lm[2].x, lm[2].y, lm[2].z])
+                origin = np.array([lm[1].x, lm[1].y, lm[1].z])          # αρχή: βάση αντίχειρα
+                index_tip = np.array([lm[5].x, lm[5].y, lm[5].z])        # βάση δείκτη
+                thumb_tip = np.array([lm[2].x, lm[2].y, lm[2].z])        # άρθρωση αντίχειρα
 
-                x_axis = towards_index - origin
+                x_axis = index_tip - origin
                 x_axis /= np.linalg.norm(x_axis)
 
-                thumb_direction = along_thumb - origin
-                thumb_direction /= np.linalg.norm(thumb_direction)
+                thumb_dir = thumb_tip - origin
+                thumb_dir /= np.linalg.norm(thumb_dir)
 
-                z_axis = np.cross(x_axis, thumb_direction)
+                z_axis = np.cross(x_axis, np.cross(thumb_dir, x_axis))
                 z_axis /= np.linalg.norm(z_axis)
 
                 y_axis = np.cross(z_axis, x_axis)
                 y_axis /= np.linalg.norm(y_axis)
+                y_axis = -y_axis
 
                 X = origin + x_axis * 0.2
                 Y = origin + y_axis * 0.2
@@ -76,7 +77,7 @@ with mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7) as hands:
                     return np.array([int(landmark.x * w), int(landmark.y * h)])
 
                 
-                base_dist = np.linalg.norm(towards_index - origin)
+                base_dist = np.linalg.norm(index_tip - origin)
                 scale = int(base_dist * w * 2.5)
                 O = to_pixel_coords(lm[1])
                 X = O + (x_axis[:2] * scale).astype(int)
